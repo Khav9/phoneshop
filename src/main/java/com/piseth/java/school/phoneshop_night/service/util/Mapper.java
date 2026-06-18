@@ -12,4 +12,10 @@ public class Mapper {
         brand.setName(brandDto.getName());
         return brand;
     }
+
+    public static BrandDto toBrandDto(Brand brand){
+        BrandDto brandDto = new BrandDto();
+        brandDto.setName(brand.getName());
+        return brandDto;
+    }
 }
