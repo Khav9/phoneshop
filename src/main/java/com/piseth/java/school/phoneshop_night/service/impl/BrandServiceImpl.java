@@ -1,16 +1,13 @@
 package com.piseth.java.school.phoneshop_night.service.impl;
 
 import com.piseth.java.school.phoneshop_night.entity.Brand;
-import com.piseth.java.school.phoneshop_night.exception.ApiException;
-import com.piseth.java.school.phoneshop_night.exception.ErrorReponse;
 import com.piseth.java.school.phoneshop_night.exception.ResourceNotFoundException;
 import com.piseth.java.school.phoneshop_night.repository.BrandRepository;
 import com.piseth.java.school.phoneshop_night.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,5 +35,15 @@ public class BrandServiceImpl implements BrandService {
         Brand brand = getById(id);
         brand.setName(brandUpdate.getName());
         return brandRepository.save(brand); //save if have data so it will create new one
+    }
+
+    @Override
+    public List<Brand> getBrands() {
+        return brandRepository.findAll() ;
+    }
+
+    @Override
+    public List<Brand> getBrands(String name) {
+        return brandRepository.findByNameContaining(name );
     }
 }
