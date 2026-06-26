@@ -1,14 +1,17 @@
 package com.piseth.java.school.phoneshop_night.controller;
 
 import com.piseth.java.school.phoneshop_night.dto.BrandDto;
+import com.piseth.java.school.phoneshop_night.dto.PageDto;
 import com.piseth.java.school.phoneshop_night.entity.Brand;
 import com.piseth.java.school.phoneshop_night.mapper.BrandMapper;
 import com.piseth.java.school.phoneshop_night.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController //come with response body. RestController != Controller
@@ -37,15 +40,18 @@ public class BrandController {
         return ResponseEntity.ok(BrandMapper.INSTANCE.toBrandDto(updatedBrand));
     }
 
-    @GetMapping()
-    public ResponseEntity<?> getBrands() {
-        List<BrandDto> list = brandService.getBrands().stream().map(brand -> BrandMapper.INSTANCE.toBrandDto(brand)).collect(Collectors.toList());
-        return ResponseEntity.ok(list);
-    }
+//    @GetMapping
+//    public ResponseEntity<?> getBrands(@RequestParam ("name")  String name) {
+//        List<BrandDto> list = brandService.getBrands(name).stream().map(brand -> BrandMapper.INSTANCE.toBrandDto(brand)).collect(Collectors.toList());
+//        return ResponseEntity.ok(list);
+//    }
 
-    @GetMapping("filter")
-    public ResponseEntity<?> getBrands(@RequestParam ("name")  String name) {
-        List<BrandDto> list = brandService.getBrands(name).stream().map(brand -> BrandMapper.INSTANCE.toBrandDto(brand)).collect(Collectors.toList());
-        return ResponseEntity.ok(list);
+    @GetMapping
+    public ResponseEntity<?> getBrands(@RequestParam Map<String, String> params) {
+        Page<Brand> page = brandService.getBrands(params);
+
+        PageDto pageDto = new PageDto(page);
+        //List<BrandDto> list = brandService.getBrands(params).stream().map(brand -> BrandMapper.INSTANCE.toBrandDto(brand)).collect(Collectors.toList());
+        return ResponseEntity.ok(pageDto);
     }
 }
