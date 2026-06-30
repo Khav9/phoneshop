@@ -1,12 +1,12 @@
 package com.piseth.java.school.phoneshop_night.spec;
 
 import com.piseth.java.school.phoneshop_night.entity.Brand;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.Data;
-import org.jspecify.annotations.Nullable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
