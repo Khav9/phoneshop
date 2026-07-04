@@ -14,15 +14,19 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 @DataJpaTest
 public class BrandRepositoryTest {
     @Autowired
-    BrandRepository brandRepository;
+    private BrandRepository brandRepository;
 
     @Test
-    public void testFindByNameLike(){
-
-        // given
+    public void testFindByNameLike() {
+        //given
         Brand brand = new Brand();
         brand.setName("Apple");
+
+        Brand brand2 = new Brand();
+        brand2.setName("Samsung");
+
         brandRepository.save(brand);
+        brandRepository.save(brand2);
 
         //when
         List<Brand> brands = brandRepository.findByNameLike("%A%");
@@ -30,6 +34,6 @@ public class BrandRepositoryTest {
         //then
         assertEquals(1, brands.size());
         assertEquals("Apple", brands.get(0).getName());
-        assertNotNull(brands.get(0).getId());
+        assertEquals(1, brands.get(0).getId());
     }
 }

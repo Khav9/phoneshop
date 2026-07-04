@@ -1,7 +1,8 @@
 package com.piseth.java.school.phoneshop_night.entity;
 
-import jakarta.persistence.*;
 import lombok.Data;
+
+import javax.persistence.*;
 
 @Data
 @Entity

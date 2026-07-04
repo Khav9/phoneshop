@@ -1,21 +1,21 @@
 package com.piseth.java.school.phoneshop_night.spec;
 
 import com.piseth.java.school.phoneshop_night.entity.Brand;
-import jakarta.annotation.Nullable;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import com.sun.istack.Nullable;
 import lombok.Data;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class BrandSpec implements Specification<Brand> {
     private final BrandFilter brandFilter;
-    List<Predicate> predicates = new ArrayList<>();
+    List<javax.persistence.criteria.Predicate> predicates = new ArrayList<>();
 
     @Override
     public @Nullable Predicate toPredicate(Root<Brand> brand, CriteriaQuery<?> query, CriteriaBuilder cb) {
