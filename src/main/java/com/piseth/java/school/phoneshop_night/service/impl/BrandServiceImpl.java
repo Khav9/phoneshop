@@ -6,6 +6,8 @@ import com.piseth.java.school.phoneshop_night.repository.BrandRepository;
 import com.piseth.java.school.phoneshop_night.service.BrandService;
 import com.piseth.java.school.phoneshop_night.spec.BrandFilter;
 import com.piseth.java.school.phoneshop_night.spec.BrandSpec;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,9 +20,10 @@ import java.util.Optional;
 import com.piseth.java.school.phoneshop_night.service.util.PageUtil;
 
 @Service
+@RequiredArgsConstructor
 public class BrandServiceImpl implements BrandService {
     @Autowired
-    private BrandRepository  brandRepository;
+    private final BrandRepository  brandRepository;
 
     @Override
     public Brand create(Brand brand) {
@@ -28,13 +31,9 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public Brand getById(Integer id) {
-        Optional<Brand> brandOptional = brandRepository.findById(id);
-        if (brandOptional.isPresent()){
-            return brandOptional.get();
-        }
-//        throw new ApiException(HttpStatus.NOT_FOUND, "Brand with id= %d not found".formatted(id));
-        throw new ResourceNotFoundException("Brand", id);
+    public Brand getById(Integer id){
+        return brandRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Brand", id));
     }
 
     @Override
