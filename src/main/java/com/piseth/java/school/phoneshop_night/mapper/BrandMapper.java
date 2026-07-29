@@ -8,8 +8,6 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface BrandMapper {
-    //mapstruct
-    
     BrandMapper INSTANCE = Mappers.getMapper(BrandMapper.class);
     Brand toBrand(BrandDto dto);
 
