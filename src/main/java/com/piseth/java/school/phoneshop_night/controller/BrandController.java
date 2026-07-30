@@ -1,10 +1,15 @@
 package com.piseth.java.school.phoneshop_night.controller;
 
 import com.piseth.java.school.phoneshop_night.dto.BrandDto;
+import com.piseth.java.school.phoneshop_night.dto.ModelDto;
 import com.piseth.java.school.phoneshop_night.dto.PageDto;
 import com.piseth.java.school.phoneshop_night.entity.Brand;
+import com.piseth.java.school.phoneshop_night.entity.Model;
 import com.piseth.java.school.phoneshop_night.mapper.BrandMapper;
+import com.piseth.java.school.phoneshop_night.mapper.ModelEntityMapper;
 import com.piseth.java.school.phoneshop_night.service.BrandService;
+import com.piseth.java.school.phoneshop_night.service.ModelService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +19,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @RestController //come with response body. RestController != Controller
 @RequestMapping("brands")
 public class BrandController {
-    @Autowired
-    private BrandService  brandService;
+    //    @Autowired
+    /*
+        private BrandService  brandService;
+        - If use Autowired  no need declare as final
+     */
+
+    private final BrandService  brandService;
+    private final ModelService modelService;
+    private final ModelEntityMapper modelMapper;
+
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> create(@RequestBody BrandDto  brandDto) {
 //        Brand brand = Mapper.toBrand(brandDto);
@@ -53,5 +67,14 @@ public class BrandController {
         PageDto pageDto = new PageDto(page);
         //List<BrandDto> list = brandService.getBrands(params).stream().map(brand -> BrandMapper.INSTANCE.toBrandDto(brand)).collect(Collectors.toList());
         return ResponseEntity.ok(pageDto);
+    }
+
+    @GetMapping("{id}/models")
+    public ResponseEntity<?> getModelByBrand(@PathVariable("id") Integer brandId) {
+        List<Model> brands = modelService.findByBrandId(brandId);
+        List<ModelDto> list = brands.stream()
+                .map(model -> modelMapper.toModelDto(model))
+                .toList();
+        return ResponseEntity.ok(list);
     }
 }
