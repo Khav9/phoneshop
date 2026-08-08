@@ -1,15 +1,15 @@
 package com.piseth.java.school.phoneshop_night.controller;
 
 import com.piseth.java.school.phoneshop_night.dto.ProductDTO;
+import com.piseth.java.school.phoneshop_night.dto.ProductImportDTO;
 import com.piseth.java.school.phoneshop_night.entity.Product;
 import com.piseth.java.school.phoneshop_night.mapper.ProductMapper;
 import com.piseth.java.school.phoneshop_night.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,5 +25,11 @@ public class ProductController {
         product = productService.create(product);
 
         return ResponseEntity.ok(product);
+    }
+
+    @PostMapping("importProduct")
+    public ResponseEntity<?> importProduct(@RequestBody @Valid ProductImportDTO importDTO){
+        productService.importProduct(importDTO);
+        return ResponseEntity.ok().build();
     }
 }
