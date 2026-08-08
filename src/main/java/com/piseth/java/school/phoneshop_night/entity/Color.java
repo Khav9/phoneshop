@@ -1,19 +1,18 @@
 package com.piseth.java.school.phoneshop_night.entity;
 
-import lombok.Data;
-
 import javax.persistence.*;
+
+import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "models")
-public class Model {
+@Table(name = "colors")
+public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "color_id")
     private Long id;
-    private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "brandId")
-    private Brand brand;
+    @Column(name = "color_name")
+    private String name;
 }
