@@ -1,5 +1,6 @@
 package com.piseth.java.school.phoneshop_night.controller;
 
+import com.piseth.java.school.phoneshop_night.dto.PriceDTO;
 import com.piseth.java.school.phoneshop_night.dto.ProductDTO;
 import com.piseth.java.school.phoneshop_night.dto.ProductImportDTO;
 import com.piseth.java.school.phoneshop_night.entity.Product;
@@ -13,7 +14,7 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("product")
+@RequestMapping("products")
 public class ProductController {
 
     private final ProductService productService;
@@ -30,6 +31,12 @@ public class ProductController {
     @PostMapping("importProduct")
     public ResponseEntity<?> importProduct(@RequestBody @Valid ProductImportDTO importDTO){
         productService.importProduct(importDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("{productId}/setSalePrice")
+    public ResponseEntity<?> setSalePrice(@PathVariable Long productId, @RequestBody PriceDTO priceDTO){
+        productService.setSalePrice(productId, priceDTO.getPrice());
         return ResponseEntity.ok().build();
     }
 }

@@ -11,6 +11,7 @@ import com.piseth.java.school.phoneshop_night.service.ProductService;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import java.math.BigDecimal;
 
 @RequiredArgsConstructor
 @Service
@@ -47,6 +48,18 @@ public class ProductServiceImpl implements ProductService {
         // save product import history
         ProductImportHistory importHistory = productMapper.toProductImportHistory(importDTO, product);
         importHistoryRepository.save(importHistory);
+    }
+
+    @Override
+    public void setSalePrice(Long productId, BigDecimal price) {
+        Product product = getById(productId);
+        product.setSalePrice(price);
+        productRepository.save(product);
+    }
+
+    @Override
+    public void validateStock(Long productId, Integer numberOfUnit) {
+
     }
 
 }
