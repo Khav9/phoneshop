@@ -3,11 +3,15 @@ package com.piseth.java.school.phoneshop_night.service;
 import com.piseth.java.school.phoneshop_night.dto.ProductImportDTO;
 import com.piseth.java.school.phoneshop_night.entity.Product;
 import java.math.BigDecimal;
+import java.util.Map;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface ProductService {
     Product create(Product product);
 
     Product getById(Long id);
+
+    Product getByModelIdAndColorId(Long modelId, Long colorId);
 
     void importProduct(ProductImportDTO importDTO);
 
@@ -15,4 +19,6 @@ public interface ProductService {
     void setSalePrice(Long productId, BigDecimal price);
 
     void validateStock(Long productId, Integer numberOfUnit);
+
+    Map<Integer, String> uploadProduct(MultipartFile file);
 }

@@ -9,8 +9,11 @@ import com.piseth.java.school.phoneshop_night.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.Map;
 import javax.validation.Valid;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @RequiredArgsConstructor
 @RestController
@@ -38,5 +41,11 @@ public class ProductController {
     public ResponseEntity<?> setSalePrice(@PathVariable Long productId, @RequestBody PriceDTO priceDTO){
         productService.setSalePrice(productId, priceDTO.getPrice());
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("uploadProduct")
+    public ResponseEntity<?> uploadProduct(@RequestParam("file") MultipartFile file){
+        Map<Integer, String> errorMap = productService.uploadProduct(file);
+        return ResponseEntity.ok(errorMap);
     }
 }

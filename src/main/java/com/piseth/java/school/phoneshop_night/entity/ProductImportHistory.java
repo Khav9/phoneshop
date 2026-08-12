@@ -1,7 +1,6 @@
 package com.piseth.java.school.phoneshop_night.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
@@ -24,7 +24,7 @@ public class ProductImportHistory {
     private Long id;
 
     @Column(name = "date_import")
-    private LocalDate dateImport;
+    private LocalDateTime dateImport;
 
     @Column(name = "import_unit")
     private Integer importUnit;

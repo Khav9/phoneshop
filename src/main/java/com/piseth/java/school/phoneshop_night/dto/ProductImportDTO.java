@@ -1,11 +1,11 @@
 package com.piseth.java.school.phoneshop_night.dto;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
+import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
@@ -20,5 +20,5 @@ public class ProductImportDTO {
     private BigDecimal importPrice;
 
     @NotNull(message = "Import date can't be null")
-    private LocalDate importDate;
+    private LocalDateTime importDate;
 }
