@@ -1,10 +1,7 @@
 package com.piseth.java.school.phoneshop_night.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.piseth.java.school.phoneshop_night.dto.SaleDTO;
 import com.piseth.java.school.phoneshop_night.service.SaleService;
@@ -21,6 +18,12 @@ public class SaleController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody SaleDTO saleDTO) {
         saleService.sell(saleDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("{saleId}/cancel")
+    public ResponseEntity<?> cancelSale(@PathVariable Long saleId){
+        saleService.cancelSale(saleId);
         return ResponseEntity.ok().build();
     }
 

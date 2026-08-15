@@ -19,6 +19,7 @@ import com.piseth.java.school.phoneshop_night.repository.SaleDetailRepository;
 import com.piseth.java.school.phoneshop_night.repository.SaleRepository;
 import com.piseth.java.school.phoneshop_night.service.ProductService;
 import com.piseth.java.school.phoneshop_night.service.SaleService;
+import com.piseth.java.school.phoneshop_night.exception.ResourceNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -127,5 +128,40 @@ public class SaleServiceImpl implements SaleService{
                 });
 
     }
+
+    @Override
+    public void cancelSale(Long saleId) {
+        // update sale status
+        Sale sale = getById(saleId);
+        sale.setActive(false);
+        saleRepository.save(sale);
+
+        // update stock
+        List<SaleDetail> saleDetails = saleDetailRepository.findBySaleId(saleId);
+
+        List<Long> productIds = saleDetails.stream()
+                .map(sd -> sd.getProduct().getId())
+                .toList();
+
+        List<Product> products = productRepository.findAllById(productIds);
+        Map<Long, Product> productMap = products.stream()
+                .collect(Collectors.toMap(Product::getId, Function.identity()));
+
+        saleDetails.forEach(sd ->{
+            Product product = productMap.get(sd.getProduct().getId());
+            product.setAvailableUnit(product.getAvailableUnit() + sd.getUnit());
+            productRepository.save(product);
+        });
+
+
+    }
+
+
+    @Override
+    public Sale getById(Long saleId) {
+        return saleRepository.findById(saleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Sale", saleId));
+    }
+
 
 }
