@@ -3,6 +3,7 @@ package com.piseth.java.school.phoneshop_night.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.piseth.java.school.phoneshop_night.dto.report.ExpenseReportDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +36,14 @@ public class    ReportController {
                                            @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("endDate") LocalDate endDate) {
         List<ProductReportDTO> productSolds = reportService.getProductReport(startDate, endDate);
         return ResponseEntity.ok(productSolds);
+    }
+
+
+    @GetMapping("expense/{startDate}/{endDate}")
+    public ResponseEntity<?> expenseReport(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("startDate") LocalDate startDate,
+                                           @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("endDate") LocalDate endDate) {
+        List<ExpenseReportDTO> expenseReportDTOs = reportService.getExpenseReport(startDate, endDate);
+        return ResponseEntity.ok(expenseReportDTOs);
     }
 
 
