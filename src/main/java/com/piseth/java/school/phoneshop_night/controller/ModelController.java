@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import javax.annotation.security.RolesAllowed;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,6 +19,7 @@ public class ModelController {
     private final ModelService  modelService;
     private final ModelEntityMapper modelEntityMapper;
 
+    @RolesAllowed("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ModelDto modelDto) {
         Model model = modelEntityMapper.toModel(modelDto);

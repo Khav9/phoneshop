@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,6 +33,7 @@ public class BrandController {
     private final ModelService modelService;
     private final ModelEntityMapper modelMapper;
 
+    @PreAuthorize("hasAuthority('brand:write')")
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> create(@RequestBody BrandDto  brandDto) {
 //        Brand brand = Mapper.toBrand(brandDto);
@@ -60,6 +61,7 @@ public class BrandController {
 //        return ResponseEntity.ok(list);
 //    }
 
+    @PreAuthorize("hasAuthority('brand:read')")
     @GetMapping
     public ResponseEntity<?> getBrands(@RequestParam Map<String, String> params) {
         Page<Brand> page = brandService.getBrands(params);
