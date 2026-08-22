@@ -1,5 +1,7 @@
 package com.piseth.java.school.phoneshop_night.config.security;
 
+import com.piseth.java.school.phoneshop_night.config.jwt.JwtLoginFilter;
+import com.piseth.java.school.phoneshop_night.config.jwt.TokenVerifyFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,6 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -28,15 +31,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
+                .addFilter(new JwtLoginFilter(authenticationManager()))
+                .addFilterAfter(new TokenVerifyFilter(), JwtLoginFilter.class)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeHttpRequests()
                 .antMatchers("/", "index.html", "css/**", "js/**").permitAll()
                 //can use in this but it might be growth to long if we have many api
                 //.antMatchers(HttpMethod.POST, "/brands").hasAuthority(BRAND_WRITE.getDescription())
                 //.antMatchers(HttpMethod.GET, "/brands").hasAuthority(BRAND_READ.getDescription())
                 .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic();
+                .authenticated();
+//                .and()
+//                .httpBasic();
     }
 
     @Bean
